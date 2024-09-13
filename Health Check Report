@@ -1,1 +1,33 @@
 #!/bin/bash
+
+# Configuration Variables
+ORACLE_HOME='/u01/app/oracle/product/19.0.0/dbhome_1'
+ORACLE_SID='$SID'
+MAIL_TO "Your Email"
+REPORT_DIR="/u02/oracle health reports"
+REPORT_FILE="$REPORT_DIR/oracle_health_check_$ (date + '%Y%m%d').log"
+ZIP DAYS=7 # Number of days after which to zip the report files
+
+# Export Oracle Environment Variables
+export ORACLE_HOME
+export ORACLE_SID
+export PATH=$PATH:$ORACLE HOME/bin
+
+# Ensure the report directory exists 
+mkdir -p $REPORT DIR
+
+# Retrieve the Database Name
+DB_NAME=$(/u01/app/oracle/product/19.0.0/dbhome_1/bin/sqlplus -silent -s /nolog <<EOF
+CONN/AS SYSDBA
+SET HEAD OFF
+SET FEEDBACK OFF
+SELECT NAME FROM V\$DATABASE;
+EXIT:
+EOF
+)
+
+# Trim any whitespace from DB_NAME 
+DB NAME=$(echo $DB_NAME | xargs)
+
+# Set the email subject with the database name MAIL SUBJECT="Daily Oracle Health Check Report - $DB NAME"
+MAIL_SUBJECT="Daily Oracle Health Check Report - $DB_NAME"
