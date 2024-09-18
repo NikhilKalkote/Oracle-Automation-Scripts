@@ -29,5 +29,18 @@ EOF
 # Trim any whitespace from DB_NAME 
 DB NAME=$(echo $DB_NAME | xargs)
 
-# Set the email subject with the database name MAIL SUBJECT="Daily Oracle Health Check Report - $DB NAME"
+# Set the email subject with the database name
 MAIL_SUBJECT="Daily Oracle Health Check Report - $DB_NAME"
+
+# Start Report with HTML Structure
+{
+  echo "To: $MAIL_TO"
+  echo "Subject: $MAIL_SUBJECT"
+  echo "Content-Type: text/html"
+  echo
+  echo "<html><body>"
+  echo "<h1> Oracle Health Check Report -$(date)</h1>
+  echo "<hr>"
+
+
+
